@@ -1,0 +1,22 @@
+<?php
+// $Id: voting_limits.module,v 1.46.2.24 2012/06/25 04:30:00 fnikola Exp $
+
+function voting_limits_user_votes_by_type ($type, $positive_only, $region='DCA') {
+  global $user;
+  if ($positive_only) {
+    $votes = db_result(db_query("select count(v.vote_id) from votingapi_vote v inner join node n on n.nid = v.content_id inner join content_type_dukeschoice d on d.nid = n.nid where v.uid = %d and n.type = '%s' and d.field_dca_region_value = '%s' and v.value > 0", $user->uid, $type, $region));
+  } else {
+    $votes = db_result(db_query("select count(v.vote_id) from votingapi_vote v inner join node n on n.nid = v.content_id inner join content_type_dukeschoice d on d.nid = n.nid where v.uid = %d and n.type = '%s' and d.field_dca_region_value = '%s'", $user->uid, $type, $region));
+  }
+  return $votes;
+}
+
+function voting_limits_user_votes_by_type_finals ($type, $positive_only) {
+  global $user;
+  if ($positive_only) {
+    $votes = db_result(db_query("select count(v.vote_id) from votingapi_vote v inner join node n on n.nid = v.content_id inner join content_field_dca_status ns on n.nid = ns.nid where v.uid = %d and n.type = '%s' and  v.value > 0 and ns.field_dca_status_value = 'Finalist'", $user->uid, $type));
+  } else {
+    $votes = db_result(db_query("select count(v.vote_id) from votingapi_vote v inner join node n on n.nid = v.content_id inner join content_field_dca_status ns on n.nid = ns.nid where v.uid = %d and n.type = '%s' and ns.field_dca_status_value = 'Finalist'", $user->uid, $type));
+  }
+  return $votes;
+}
