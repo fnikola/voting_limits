@@ -1,0 +1,9 @@
+; $Id: voting_limits.info,v 1.4 2012/06/25 04:30:00 fnikola Exp $
+name = Voting Limits
+description = Adds total number of votes.
+package = Voting
+core = 6.x
+; Information added by fnikola
+version = "6.x-1.0"
+core = "6.x"
+project = "voting_limits"
